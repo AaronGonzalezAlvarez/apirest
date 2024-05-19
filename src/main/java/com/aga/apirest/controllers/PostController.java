@@ -2,10 +2,8 @@ package com.aga.apirest.controllers;
 
 import com.aga.apirest.models.Post;
 import com.aga.apirest.models.User;
-import com.aga.apirest.models.UserPost;
 import com.aga.apirest.services.post.PostService;
 import com.aga.apirest.services.user.UserService;
-import com.aga.apirest.services.userpost.UserPostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static com.aga.apirest.utils.JwtUtils.checkJWTForEndPointReturnId;
 
@@ -29,13 +23,10 @@ public class PostController {
     private final Logger logger = LoggerFactory.getLogger(PostController.class);
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private PostService postService;
 
     @Autowired
-    private UserPostService userPostService;
+    private UserService userService;
 
     @PostMapping("/add")
     public ResponseEntity<?> addPost(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Post post) {
@@ -52,20 +43,14 @@ public class PostController {
             return ResponseEntity.badRequest().body("Uno o más campos son nulos");
         }
         //creamos nuevo post
-        Post p = new Post(post.getTitle(),post.getText(), LocalDateTime.now());
+        Post p = new Post(post.getTitle(),post.getText(), LocalDateTime.now(),userService.getUser(idUser));
         postService.save(p);
 
-        //relacionamos el post con el usuario que lo ha creado
-        User user = userService.getUser(idUser);
-
-        UserPost up = new UserPost(user,p);
-        userPostService.save(up);
-
-        return ResponseEntity.ok(up);
+        return ResponseEntity.ok("Nueva publicación");
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deletePost(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Post post) {
+    public ResponseEntity<?> deletePost(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestParam String id) {
 
         String checkAuth = checkJWTForEndPointReturnId(authorizationHeader);
 
@@ -75,15 +60,12 @@ public class PostController {
 
         int idUser = Integer.parseInt(checkAuth);
 
-        if(!checkId(post.getId())){
+        if(!checkId(Integer.parseInt(id))){
             return ResponseEntity.badRequest().body("Id no existe en la base de datos");
         }
 
         //buscamos el post y el usuario
-        Post p = postService.getPost(post.getId());
-        User u = userService.getUser(idUser);
-        //primero borramos la relacion intermedia
-        userPostService.deleteByUserAndPost(u,p);
+        Post p = postService.getPost(Integer.parseInt(id));
         postService.delete(p);
         return ResponseEntity.ok("Post eliminado");
     }
@@ -127,18 +109,11 @@ public class PostController {
 
         int idUser = Integer.parseInt(checkAuth);
         User u = userService.getUser(idUser);
-        ArrayList<Post> posts = new ArrayList<>(0);
-        for(UserPost x:u.getUserPostsCreator()){
-            posts.add(x.getPost());
-        }
-        Map<String, Object> json = new HashMap<>();
-        json.put("totalPosts", posts.size());
-        json.put("posts", posts);
 
-        return ResponseEntity.ok(json);
+        return ResponseEntity.ok(postService.findPostsByUserEmail(u.getEmail()));
     }
 
-    @GetMapping("/getPostTotalUser")
+    @GetMapping("/getPostTotalUsers")
     public ResponseEntity<?> getPostTotalUser(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 
         String checkAuth = checkJWTForEndPointReturnId(authorizationHeader);
@@ -146,12 +121,8 @@ public class PostController {
         if(checkAuth.equals("header vacío") || checkAuth.equals("JWT corructo")){
             return ResponseEntity.badRequest().body(checkAuth);
         }
-
-        List<UserPost> up = userPostService.listUserPost();
-
-        return ResponseEntity.ok("json");
+        return ResponseEntity.ok(postService.orderDatePosts());
     }
-
 
     private boolean checkId(int id){
         boolean check = true;

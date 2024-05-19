@@ -37,39 +37,32 @@ public class User {
 
     private String password;
 
+    @Column(name = "baneado")
+    private int banned;
+
+    private String img;
+
+    //posts
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Post> posts;
+
+    //mensajes
+    @OneToMany(mappedBy = "emitter",fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Message> messagesEmitter;
+
+    @OneToMany(mappedBy = "addressee",fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Message> messagesAddressee;
+
+    //actividades
     @OneToMany(mappedBy = "creator",fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<UserPost> userPostsCreator;
+    private List<Activity> activitiescreated;
 
-    @OneToMany(mappedBy = "commentator",fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<UserPost> userPostsCommentator;
+    private List<Activity> registeredActivities;
 
-    //actividad
-    @OneToMany(mappedBy = "creator",fetch = FetchType.EAGER)
-    @JsonIgnore
-    private List<UserActivity> userActivityCreator;
-
-    @OneToMany(mappedBy = "registered",fetch = FetchType.EAGER)
-    @JsonIgnore
-    private List<UserActivity> userActivityRegistered;
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", phone=" + phone +
-                ", rol=" + rol +
-                ", province='" + province + '\'' +
-                ", nick='" + nick + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", userPostsCreator=" + userPostsCreator.size() +
-                ", userPostsCommentator=" + userPostsCommentator.size() +
-                ", userActivityCreator=" + userActivityCreator.size() +
-                ", userActivityRegistered=" + userActivityRegistered.size() +
-                '}';
-    }
 }

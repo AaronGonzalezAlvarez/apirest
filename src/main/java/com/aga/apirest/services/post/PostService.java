@@ -1,6 +1,7 @@
 package com.aga.apirest.services.post;
 
 import com.aga.apirest.models.Post;
+import com.aga.apirest.models.User;
 import com.aga.apirest.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,15 @@ public class PostService implements IPostService{
     @Override
     public void delete(Post c) {
         postRepository.delete(c);
+    }
+
+    @Override
+    public List<Post> findPostsByUserEmail(String email) {
+        return postRepository.findPostsByUserEmail(email);
+    }
+
+    @Override
+    public List<Post> orderDatePosts() {
+        return postRepository.orderDatePosts();
     }
 }

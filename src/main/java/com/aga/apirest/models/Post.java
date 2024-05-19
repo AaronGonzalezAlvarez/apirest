@@ -1,12 +1,10 @@
 package com.aga.apirest.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Data
@@ -27,14 +25,15 @@ public class Post {
     @Column(name = "fecha")
     private LocalDateTime date;
 
-    @OneToMany(mappedBy = "post",fetch = FetchType.EAGER)
-    @JsonIgnore
-    private List<UserPost> userPosts;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "autor_id")
+    private User user;
 
-    public Post(String title, String text, LocalDateTime date) {
+    public Post(String title, String text, LocalDateTime date,User user) {
         this.title = title;
         this.text = text;
         this.date = date;
+        this.user = user;
     }
 
 }

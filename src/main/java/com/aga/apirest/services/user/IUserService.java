@@ -15,4 +15,10 @@ public interface IUserService {
     public void delete(User c);
 
     public User getUserForEmail(String email);
+
+    public User findByNick(String nick);
+
+    public User findByNickOrEmail(String nick);
+
+    public List<User> findByNickOrEmailInclude(String x);
 }
