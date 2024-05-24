@@ -1,0 +1,79 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+class Activity {
+    - Integer id
+    - String name
+    - String summary
+    - String description
+    - String location
+    - LocalTime startTime
+    - LocalTime endTime
+    - LocalDate date
+    - Integer total
+    - String img
+    - String zone
+    - String province
+    - String material
+    - String displacement
+    - int hourlyPrice
+    - int activityprice
+    - User creator
+    - List<User> users
+
+    + Activity(String name, String summary, String description, String location, LocalTime startTime, LocalTime endTime, LocalDate date, Integer total, String zone, String province, String material, String displacement, int hourlyPrice, int activityprice, User creator)
+}
+class Message {
+    - Integer id
+    - String title
+    - String content
+    - LocalDateTime date
+    - User emitter
+    - User addressee
+
+    + Message(String title, String content, LocalDateTime date, User emitter, User addressee)
+}
+class Post {
+    - Integer id
+    - String title
+    - String text
+    - LocalDateTime date
+    - User user
+
+    + Post(String title, String text, LocalDateTime date, User user)
+}
+class User {
+    - Integer id
+    - String name
+    - String surname
+    - Integer phone
+    - Integer rol
+    - String province
+    - String nick
+    - String email
+    - String password
+    - int banned
+    - String img
+
+    - List<Post> posts
+    - List<Message> messagesEmitter
+    - List<Message> messagesAddressee
+    - List<Activity> activitiescreated
+    - List<Activity> registeredActivities
+}
+
+
+
+Activity "1" --> "0..1" User : creator
+Activity "0..*" --> "0..*" User : users
+Message "1" --> "0..1" User : emitter
+Message "1" --> "0..1" User : addressee
+Post "1" --> "0..1" User : user
+
+User "1" --> "0..*" Post : posts
+User "1" --> "0..*" Message : messagesEmitter
+User "1" --> "0..*" Message : messagesAddressee
+User "1" --> "0..*" Activity : activitiescreated
+User "0..*" --> "0..*" Activity : registeredActivities
+@enduml
