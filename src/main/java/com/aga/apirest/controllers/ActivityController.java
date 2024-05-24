@@ -5,6 +5,8 @@ import com.aga.apirest.models.Post;
 import com.aga.apirest.models.User;
 import com.aga.apirest.services.activity.ActivityService;
 import com.aga.apirest.services.user.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,8 @@ public class ActivityController {
     @Autowired
     private UserService userService;
 
+    @Tag(name = "ActivityController" , description = "Gestiona las actividades.")
+    @Operation(summary = "Crea una nueva actividad.", description = "")
     @PostMapping("/add")
     public ResponseEntity<?> addActivity(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Activity activity) {
 
@@ -56,6 +60,8 @@ public class ActivityController {
         return ResponseEntity.ok("Nueva Actividad");
     }
 
+    @Tag(name = "ActivityController" , description = "Gestiona las actividades.")
+    @Operation(summary = "Actualiza una actividad.", description = "")
     @PutMapping("/update")
     public ResponseEntity<?> updateActivity(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Activity activity) {
 
@@ -86,6 +92,8 @@ public class ActivityController {
         return ResponseEntity.ok("Actividad actualizada.");
     }
 
+    @Tag(name = "ActivityController" , description = "Gestiona las actividades.")
+    @Operation(summary = "Nos trae las actividades de un usuario", description = "")
     @GetMapping("/getActivityUser")
     public ResponseEntity<?> getActivityUser(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 
@@ -101,6 +109,8 @@ public class ActivityController {
         return ResponseEntity.ok(userAux.getActivitiescreated());
     }
 
+    @Tag(name = "ActivityController" , description = "Gestiona las actividades.")
+    @Operation(summary = "Nos trae los datos de una actividad", description = "")
     @GetMapping("/getActivity")
     public ResponseEntity<?> getActivity(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestParam String id) {
 
@@ -113,6 +123,8 @@ public class ActivityController {
         return ResponseEntity.ok(activityService.getActivity(Integer.parseInt(id)));
     }
 
+    @Tag(name = "ActivityController" , description = "Gestiona las actividades.")
+    @Operation(summary = "Nos trae todas las actividades", description = "")
     @GetMapping("/getActivitiesAll")
     public ResponseEntity<?> getActivitiesAll(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 
@@ -126,6 +138,8 @@ public class ActivityController {
 
     }
 
+    @Tag(name = "ActivityController" , description = "Gestiona las actividades.")
+    @Operation(summary = "Nos trae nuestras inscripciones", description = "")
     @GetMapping("/getInscriptions")
     public ResponseEntity<?> getInscriptions(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 
@@ -141,6 +155,8 @@ public class ActivityController {
         return ResponseEntity.ok(userAux.getRegisteredActivities());
     }
 
+    @Tag(name = "ActivityController" , description = "Gestiona las actividades.")
+    @Operation(summary = "Nos inscribimos en la actividad", description = "")
     @GetMapping("/addInscriptions")
     public ResponseEntity<?> addInscriptions(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestParam String id) {
         synchronized (o1){
@@ -175,6 +191,8 @@ public class ActivityController {
         }
     }
 
+    @Tag(name = "ActivityController" , description = "Gestiona las actividades.")
+    @Operation(summary = "Nos desuscribimos de una actividad", description = "")
     @DeleteMapping("/deleteInscriptions")
     public ResponseEntity<?> deleteInscriptions(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestParam String id) {
         synchronized (o2){
@@ -195,6 +213,8 @@ public class ActivityController {
         }
     }
 
+    @Tag(name = "ActivityController" , description = "Gestiona las actividades.")
+    @Operation(summary = "filtra por nombre de la actividad.", description = "")
     @GetMapping("/filterForName/{name}")
     public ResponseEntity<?> filterForName(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader,@PathVariable String name) {
 
@@ -206,6 +226,8 @@ public class ActivityController {
         return ResponseEntity.ok(activityService.filterActivityForNameConcat(name));
     }
 
+    @Tag(name = "ActivityController" , description = "Gestiona las actividades.")
+    @Operation(summary = "Nos da las actividades que son gratis.", description = "")
     @GetMapping("/filterActivityFree")
     public ResponseEntity<?> filterActivityFree(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 
@@ -217,6 +239,8 @@ public class ActivityController {
         return ResponseEntity.ok(activityService.filterActivityFree());
     }
 
+    @Tag(name = "ActivityController" , description = "Gestiona las actividades.")
+    @Operation(summary = "Nos da las actividades por provincia.", description = "")
     @GetMapping("/filterActivityForPronvince/{name}")
     public ResponseEntity<?> filterActivityForPronvince(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader,@PathVariable String name) {
 
@@ -228,6 +252,8 @@ public class ActivityController {
         return ResponseEntity.ok(activityService.filterActivityForPronvince(name));
     }
 
+    @Tag(name = "ActivityController" , description = "Gestiona las actividades.")
+    @Operation(summary = "Nos da las actividades entre dos fechas.", description = "")
     @GetMapping("/filterActivityForDate/{date1}/{date2}")
     public ResponseEntity<?> filterActivityForDate(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader,@PathVariable String date1,@PathVariable String date2) {
 
@@ -241,6 +267,8 @@ public class ActivityController {
         return ResponseEntity.ok(activityService.filterActivityForDate(d1,d2));
     }
 
+    @Tag(name = "ActivityController" , description = "Gestiona las actividades.")
+    @Operation(summary = "Borra una actividad.", description = "")
     @DeleteMapping("/deleteActivity")
     public ResponseEntity<?> deleteActivity(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestParam String id) {
 

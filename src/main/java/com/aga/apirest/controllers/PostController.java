@@ -4,6 +4,8 @@ import com.aga.apirest.models.Post;
 import com.aga.apirest.models.User;
 import com.aga.apirest.services.post.PostService;
 import com.aga.apirest.services.user.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class PostController {
     @Autowired
     private UserService userService;
 
+    @Tag(name = "PostController" , description = "Gestiona los post de los usuarios.")
+    @Operation(summary = "Añade un nuevo post.", description = "")
     @PostMapping("/add")
     public ResponseEntity<?> addPost(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Post post) {
 
@@ -49,6 +53,8 @@ public class PostController {
         return ResponseEntity.ok("Nueva publicación");
     }
 
+    @Tag(name = "PostController" , description = "Gestiona los post de los usuarios.")
+    @Operation(summary = "Borra un post.", description = "")
     @DeleteMapping("/delete")
     public ResponseEntity<?> deletePost(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestParam String id) {
 
@@ -70,7 +76,8 @@ public class PostController {
         return ResponseEntity.ok("Post eliminado");
     }
 
-
+    @Tag(name = "PostController" , description = "Gestiona los post de los usuarios.")
+    @Operation(summary = "Actualiza un post.", description = "")
     @PutMapping("/update")
     public ResponseEntity<?> updatePost(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Post post) {
 
@@ -97,7 +104,8 @@ public class PostController {
         return ResponseEntity.ok("Post actualizado");
     }
 
-
+    @Tag(name = "PostController" , description = "Gestiona los post de los usuarios.")
+    @Operation(summary = "Muestra los post de un usuario.", description = "")
     @GetMapping("/getPostUser")
     public ResponseEntity<?> getPostUser(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 
@@ -113,6 +121,8 @@ public class PostController {
         return ResponseEntity.ok(postService.findPostsByUserEmail(u.getEmail()));
     }
 
+    @Tag(name = "PostController" , description = "Gestiona los post de los usuarios.")
+    @Operation(summary = "Muestra todos los post de todos los usuarios.", description = "")
     @GetMapping("/getPostTotalUsers")
     public ResponseEntity<?> getPostTotalUser(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 

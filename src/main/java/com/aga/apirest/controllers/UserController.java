@@ -9,6 +9,8 @@ import com.aga.apirest.services.message.MessageService;
 import com.aga.apirest.services.post.PostService;
 import com.aga.apirest.services.user.UserService;
 import com.aga.apirest.utils.SessionUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,8 @@ public class UserController {
     @Autowired
     private ActivityService activityService;
 
+    @Tag(name = "UserController" , description = "Gestiona el concepto de usuario.")
+    @Operation(summary = "Crea un nuevo usuario.", description = "")
     @PostMapping("/add")
     public ResponseEntity<?> addUser(@RequestBody User user) {
         //comprobar que los datos no vengan nulos
@@ -63,6 +67,8 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @Tag(name = "UserController" , description = "Gestiona el concepto de usuario.")
+    @Operation(summary = "Actualiza un usuario.", description = "")
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody User user) {
 
@@ -88,6 +94,8 @@ public class UserController {
         return ResponseEntity.ok(u);
     }
 
+    @Tag(name = "UserController" , description = "Gestiona el concepto de usuario.")
+    @Operation(summary = "Cambia el rol de un usuario, de consumidor a ofertante.", description = "")
     @PutMapping("/changeRolTwo")
     public ResponseEntity<?> changeRolTwo(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 
@@ -113,6 +121,8 @@ public class UserController {
         return ResponseEntity.ok(u);
     }
 
+    @Tag(name = "UserController" , description = "Gestiona el concepto de usuario.")
+    @Operation(summary = "Banea a un usuario, no puede acceder a la aplicación.", description = "")
     @PutMapping("/banUser")
     public ResponseEntity<?> banUser(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Map<String, String> request) {
 
@@ -140,6 +150,8 @@ public class UserController {
         }
     }
 
+    @Tag(name = "UserController" , description = "Gestiona el concepto de usuario.")
+    @Operation(summary = "Muestra todos los usuarios.", description = "")
     @GetMapping("/getUsers")
     public ResponseEntity<?> getUsers(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 
@@ -151,6 +163,8 @@ public class UserController {
         return ResponseEntity.ok(userService.listUser());
     }
 
+    @Tag(name = "UserController" , description = "Gestiona el concepto de usuario.")
+    @Operation(summary = "Muestra los post de un usuario.", description = "")
     @GetMapping("/getPostForUser/{idUser}")
     public ResponseEntity<?> getPostForUser(@PathVariable String idUser, @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 
@@ -176,6 +190,8 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @Tag(name = "UserController" , description = "Gestiona el concepto de usuario.")
+    @Operation(summary = "Busca usuario por name o email.", description = "")
     @GetMapping("/findUserForNickOrEmail/{data}")
     public ResponseEntity<?> findUserForNickOrEmail(@PathVariable String data, @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 
@@ -195,6 +211,8 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @Tag(name = "UserController" , description = "Gestiona el concepto de usuario.")
+    @Operation(summary = "Nos da información de un usuario.", description = "")
     @GetMapping("/getUserData/{idUser}")
     public ResponseEntity<?> getUserData(@PathVariable String idUser, @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 
@@ -222,6 +240,8 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @Tag(name = "UserController" , description = "Gestiona el concepto de usuario.")
+    @Operation(summary = "da de baja a un usuario.", description = "")
     @DeleteMapping("/delete")
     public ResponseEntity<?> delete(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 

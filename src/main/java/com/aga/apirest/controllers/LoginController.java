@@ -3,6 +3,8 @@ package com.aga.apirest.controllers;
 import com.aga.apirest.models.User;
 import com.aga.apirest.services.user.UserService;
 import com.aga.apirest.utils.SessionUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -29,6 +31,8 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    @Tag(name = "LoginController" , description = "Maneja todo lo relacionado con la sesión.")
+    @Operation(summary = "Se usa para inciar la sesión,regresa un JWT de sesión tanto en el body como en forma de cookie.", description = "")
     @PostMapping("/access")
     public ResponseEntity<String> login(@RequestBody Map<String, String> request, HttpServletResponse response) {
         synchronized (o1){
@@ -68,6 +72,8 @@ public class LoginController {
         }
     }
 
+    @Tag(name = "LoginController" , description = "Maneja todo lo relacionado con la sesión.")
+    @Operation(summary = "Se le envia el JWT de sesión para obtener información del usuario en logeado.", description = "")
     @PostMapping("/check")
     public ResponseEntity<String> check(@RequestBody Map<String, String> request) {
         String jwt = request.get("jwt");
@@ -84,6 +90,8 @@ public class LoginController {
         return ResponseEntity.ok(jwtData);
     }
 
+    @Tag(name = "LoginController" , description = "Maneja todo lo relacionado con la sesión.")
+    @Operation(summary = "Se cierra la sesión, se le envia el JWT para finalizar la sesión.", description = "")
     @GetMapping("/CloserSession")
     public void CloserSession(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 
@@ -93,6 +101,8 @@ public class LoginController {
 
     }
 
+    @Tag(name = "LoginController" , description = "Maneja todo lo relacionado con la sesión.")
+    @Operation(summary = "Petición de testeo para volver a restablecer por defecto las sesiones.", description = "")
     @GetMapping("/ResetSession")
     public void ResetSession() {
         SessionUtils.resetSession();

@@ -5,6 +5,8 @@ import com.aga.apirest.models.Post;
 import com.aga.apirest.models.User;
 import com.aga.apirest.services.message.MessageService;
 import com.aga.apirest.services.user.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,8 @@ public class MessageController {
 
     private final Logger logger = LoggerFactory.getLogger(MessageController.class);
 
+    @Tag(name = "MessageController" , description = "Maneja el envio de mensajes entre usuarios.")
+    @Operation(summary = "Se utiliza para enviar un nuevo mensaje a un usuario", description = "")
     @PostMapping("/newMessage")
     public ResponseEntity<?> newMessage(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody Map<String, String> request) {
 
@@ -64,6 +68,8 @@ public class MessageController {
         return ResponseEntity.ok("Mensaje enviado");
     }
 
+    @Tag(name = "MessageController" , description = "Maneja el envio de mensajes entre usuarios.")
+    @Operation(summary = "Muestra todos los mensajes de usuario, los enviados y los recibidos.", description = "")
     @GetMapping("/getMessageUser")
     public ResponseEntity<?> getMessageUser(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 
@@ -79,6 +85,8 @@ public class MessageController {
         return ResponseEntity.ok(messageService.messageForUser(u.getEmail()));
     }
 
+    @Tag(name = "MessageController" , description = "Maneja el envio de mensajes entre usuarios.")
+    @Operation(summary = "Borra mensaje del usuario", description = "")
     @DeleteMapping("/delete")
     public ResponseEntity<?> deletePost(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestParam String id) {
 
