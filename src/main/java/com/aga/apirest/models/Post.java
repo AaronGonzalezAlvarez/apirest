@@ -1,14 +1,10 @@
 package com.aga.apirest.models;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Data
-@NoArgsConstructor
 @Table(name = "posts")
 public class Post {
 
@@ -29,6 +25,10 @@ public class Post {
     @JoinColumn(name = "autor_id")
     private User user;
 
+    public Post(){
+
+    }
+
     public Post(String title, String text, LocalDateTime date,User user) {
         this.title = title;
         this.text = text;
@@ -36,4 +36,43 @@ public class Post {
         this.user = user;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
